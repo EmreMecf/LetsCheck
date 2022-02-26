@@ -10,7 +10,7 @@
             android:supportsRtl="true"
             android:theme="@style/Theme.LetsCheck">
         <activity
-                android:name=".TiralAdd"
+                android:name=".TiralActivity"
                 android:exported="true"/>
         <activity
                 android:name=".MainActivity"

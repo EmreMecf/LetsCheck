@@ -4,7 +4,9 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.1933876811594203" />
-        <entry key="app/src/main/res/layout/activity_tiral_add.xml" value="0.18374683295196678" />
+        <entry key="app/src/main/res/layout/activity_tiral_add.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/recycler_row.xml" value="0.2196969696969697" />
+        <entry key="app/src/main/res/layout/tiral_row.xml" value="0.25" />
         <entry key="app/src/main/res/menu/add_raw.xml" value="0.16129032258064516" />
       </map>
     </option>
