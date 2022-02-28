@@ -38,7 +38,6 @@ public class TiralActivity extends AppCompatActivity {
             binding.trialname.setText("");
             binding.wrong.setText("");
             binding.correct.setText("");
-            binding.net.setText("");
             binding.ekle.setVisibility(View.VISIBLE);
 
         }else{
@@ -46,6 +45,20 @@ public class TiralActivity extends AppCompatActivity {
             binding.ekle.setVisibility(View.INVISIBLE);
             try {
                 Cursor cursor=database.rawQuery("SELECT * FROM trial WHERE id=?",new String[]{String.valueOf(artId)});
+                int trialNameIx =cursor.getColumnIndex("trialname");
+                int correctIx =cursor.getColumnIndex("correct");
+                int wrongIx=cursor.getColumnIndex("wrong");
+                int netIx =cursor.getColumnIndex("net");
+                while (cursor.moveToNext()){
+                    binding.trialname.setText(cursor.getString(trialNameIx));
+                    binding.correct.setText(cursor.getString(correctIx));
+                    binding.wrong.setText(cursor.getString(wrongIx));
+                    binding.net.setText(cursor.getString(netIx));
+                }
+                cursor.close();
+
+
+
             }catch (Exception e){
                 e.printStackTrace();
             }
@@ -60,9 +73,8 @@ public class TiralActivity extends AppCompatActivity {
         String trialName = binding.trialname.getText().toString();
         String correct = binding.correct.getText().toString();
         String wrong = binding.wrong.getText().toString();
-        String net = binding.net.getText().toString();
 
-        if (editText.getText().toString().matches(" ") || editText1.getText().toString().matches(" ")) {
+        if (editText.getText().toString().matches("") || editText1.getText().toString().matches("")) {
             Toast.makeText(getApplicationContext(), "Doğru veya Yanlış girmediniz", Toast.LENGTH_LONG).show();
 
         } else {
@@ -71,8 +83,9 @@ public class TiralActivity extends AppCompatActivity {
 
             float net2 = yanlıs / 4;
             float net1 = dogru - net2;
+            textView.setText("Net:" +net1);
 
-            textView.setText("NET :" + net1);
+
 
             try {
                 database.execSQL("CREATE TABLE IF NOT EXISTS trial(id INTEGER PRIMARY KEY, trialname VARCHAR, correct VARCHAR, wrong VARCHAR, net VARCHAR)");

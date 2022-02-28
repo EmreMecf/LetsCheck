@@ -15,27 +15,34 @@
             app:layout_constraintStart_toStartOf="parent" app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.498" app:layout_constraintBottom_toBottomOf="parent"
             android:layout_marginBottom="96dp" android:onClick="ekle"/>
+
     <EditText
-            android:layout_width="100dp"
-            android:layout_height="48dp"
-            android:inputType="number"
-            android:ems="10"
-            android:id="@+id/correct"
-            android:hint="123"
-            app:layout_constraintBottom_toTopOf="@+id/wrong"
-            android:layout_marginBottom="20dp" app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" app:layout_constraintHorizontal_bias="0.102"/>
+        android:id="@+id/correct"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp"
+        android:ems="10"
+        android:hint="Doğru Sayısı"
+        android:inputType="number"
+        android:minHeight="48dp"
+        app:layout_constraintBottom_toTopOf="@+id/wrong"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.102"
+        app:layout_constraintStart_toStartOf="parent" />
+
     <EditText
-            android:layout_width="100dp"
-            android:layout_height="48dp"
-            android:inputType="number"
-            android:ems="10"
-            android:id="@+id/wrong"
-            android:hint="123"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            android:layout_marginBottom="236dp" app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintHorizontal_bias="0.106"/>
+        android:id="@+id/wrong"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="236dp"
+        android:ems="10"
+        android:hint="Yanlıs Sayısı"
+        android:inputType="number"
+        android:minHeight="48dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.106"
+        app:layout_constraintStart_toStartOf="parent" />
     <EditText android:layout_width="300dp"
               android:layout_height="48dp"
               android:hint="Trial Enter Name"
@@ -43,14 +50,18 @@
               app:layout_constraintStart_toStartOf="parent" app:layout_constraintEnd_toEndOf="parent"
               app:layout_constraintHorizontal_bias="0.495" app:layout_constraintTop_toTopOf="parent"
               android:layout_marginTop="100dp"/>
+
     <TextView
-            android:layout_width="150dp"
-            android:layout_height="48dp"
-            android:text="NET:"
-            android:textSize="33dp"
-            app:layout_constraintEnd_toEndOf="parent" app:layout_constraintBottom_toBottomOf="parent"
-            android:layout_marginBottom="268dp" app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintHorizontal_bias="0.842" android:id="@+id/net"/>
+        android:id="@+id/net"
+        android:layout_width="150dp"
+        android:layout_height="48dp"
+        android:layout_marginBottom="264dp"
+        android:text="NET:"
+        android:textSize="33dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.954"
+        app:layout_constraintStart_toStartOf="parent" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
