@@ -4,6 +4,8 @@
 
     <item android:title="Deneme Ekle"
           android:id="@+id/add_trial"
+          android:icon="@drawable/ic_baseline_folder_24"
+          app:showAsAction="ifRoom"
 
 
     />

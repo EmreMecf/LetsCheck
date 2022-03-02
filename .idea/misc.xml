@@ -5,11 +5,14 @@
       <map>
         <entry key="..\:/Users/Nurullah/IntelliJIDEAProjects/LetsCheck/app/src/main/res/layout/activity_tiral_add.xml" value="0.55" />
         <entry key="..\:/Users/Nurullah/IntelliJIDEAProjects/LetsCheck/app/src/main/res/layout/recycler_row.xml" value="0.5" />
-        <entry key="app/src/main/res/layout/activity_main.xml" value="0.1933876811594203" />
+        <entry key="app/src/main/res/drawable/ic_baseline_add_24.xml" value="0.25277777777777777" />
+        <entry key="app/src/main/res/drawable/ic_baseline_create_new_folder_24.xml" value="0.1" />
+        <entry key="app/src/main/res/drawable/ic_baseline_folder_24.xml" value="0.2390625" />
+        <entry key="app/src/main/res/layout/activity_main.xml" value="0.25" />
         <entry key="app/src/main/res/layout/activity_tiral_add.xml" value="0.25" />
-        <entry key="app/src/main/res/layout/recycler_row.xml" value="0.2196969696969697" />
+        <entry key="app/src/main/res/layout/recycler_row.xml" value="0.25" />
         <entry key="app/src/main/res/layout/tiral_row.xml" value="0.25" />
-        <entry key="app/src/main/res/menu/add_raw.xml" value="0.16129032258064516" />
+        <entry key="app/src/main/res/menu/add_raw.xml" value="0.28765748515732137" />
       </map>
     </option>
   </component>
