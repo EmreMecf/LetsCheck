@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import com.example.letscheck.databinding.RecyclerRowBinding;
@@ -12,7 +13,9 @@ import com.example.letscheck.databinding.RecyclerRowBinding;
 import java.util.ArrayList;
 
 public class TrialAdapter extends RecyclerView.Adapter<TrialAdapter.TrialHolder> {
-    ArrayList<Trial> trialArrayList;
+    private final ArrayList<Trial> trialArrayList;
+    private AdapterView.OnItemClickListener onItemClickListener;
+
     public TrialAdapter(ArrayList<Trial> trialArrayList){
         this.trialArrayList=trialArrayList;
     }
@@ -21,30 +24,25 @@ public class TrialAdapter extends RecyclerView.Adapter<TrialAdapter.TrialHolder>
     @Override
     public TrialHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         RecyclerRowBinding recyclerRowBinding=RecyclerRowBinding.inflate(LayoutInflater.from(parent.getContext()),parent,false);
-        return new TrialHolder(recyclerRowBinding);
+        TrialHolder trialHolder = new TrialHolder(recyclerRowBinding);
+        trialHolder.setOnItemClickListener(onItemClickListener);
+        return trialHolder;
     }
 
     @Override
     public void onBindViewHolder(@NonNull TrialHolder holder, @SuppressLint("RecyclerView") int position) {
+
         holder.binding.recyclerViewTextView.setText(trialArrayList.get(position).name);
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent=new Intent(holder.itemView.getContext(),TiralActivity.class);
-                intent.putExtra("info","old");
-                intent.putExtra("artId",trialArrayList.get(position).id);
-                holder.itemView.getContext().startActivity(intent);
-
-
-            }
-        });
-
 
     }
 
     @Override
     public int getItemCount() {
         return trialArrayList.size();
+    }
+
+    public void setOnItemClickListener(AdapterView.OnItemClickListener onItemClickListener) {
+        this.onItemClickListener = onItemClickListener;
     }
 
     public class TrialHolder extends RecyclerView.ViewHolder{
@@ -54,8 +52,22 @@ public class TrialAdapter extends RecyclerView.Adapter<TrialAdapter.TrialHolder>
             super(binding.getRoot());
             this.binding=binding;
         }
-    }
 
+        public void setOnItemClickListener(AdapterView.OnItemClickListener onItemClickListener) {
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    onItemClickListener.onItemClick(null,view,getAdapterPosition(),getItemId());
+                }
+            });
+            binding.imageDelete.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    onItemClickListener.onItemClick(null,view,getAdapterPosition(),getItemId());
+                }
+            });
+        }
+    }
 
 
 }
