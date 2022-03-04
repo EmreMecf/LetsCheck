@@ -60,7 +60,7 @@ public class TrialAdapter extends RecyclerView.Adapter<TrialAdapter.TrialHolder>
                     onItemClickListener.onItemClick(null,view,getAdapterPosition(),getItemId());
                 }
             });
-            binding.imageDelete.setOnClickListener(new View.OnClickListener() {
+            binding.popupMenu.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     onItemClickListener.onItemClick(null,view,getAdapterPosition(),getItemId());

@@ -11,8 +11,10 @@ import android.view.View;
 import android.widget.AdapterView;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.PopupMenu;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import com.example.letscheck.databinding.ActivityMainBinding;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
 
@@ -26,8 +28,8 @@ public class MainActivity extends AppCompatActivity {
         public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
             final Trial trial = trialArrayList.get(position);
             switch (view.getId()) {
-                case  R.id.image_delete:
-                    deleteItem(trial);
+                case R.id.popup_menu:
+                    showPopupMenu(view, trial);
                     break;
                 default:
                     goToTrialActivity(trial);
@@ -35,16 +37,34 @@ public class MainActivity extends AppCompatActivity {
         }
     };
 
+    private void showPopupMenu(View v, Trial trial) {
+        PopupMenu popupMenu = new PopupMenu(this, v);
+        popupMenu.inflate(R.menu.popup_menu);
+        popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                switch (item.getItemId()) {
+                    case R.id.delete:
+                        deleteItem(trial);
+                        return true;
+                }
+                return false;
+            }
+        });
+        popupMenu.show();
+
+    }
+
     private void deleteItem(Trial trial) {
-        int id=trial.id;
-        sqLiteDatabase.execSQL("DELETE FROM trial WHERE id="+id);
+        int id = trial.id;
+        sqLiteDatabase.execSQL("DELETE FROM trial WHERE id=" + id);
         getData();
     }
 
     private void goToTrialActivity(Trial trial) {
-        Intent intent=new Intent(getApplicationContext(),TiralActivity.class);
-        intent.putExtra("info","old");
-        intent.putExtra("artId",trial.id);
+        Intent intent = new Intent(MainActivity.this,TiralActivity.class);
+        intent.putExtra("info", "old");
+        intent.putExtra("artId", trial.id);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         getApplicationContext().startActivity(intent);
     }
@@ -55,12 +75,23 @@ public class MainActivity extends AppCompatActivity {
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         View view = binding.getRoot();
         setContentView(view);
-
         trialArrayList = new ArrayList<>();
         binding.recyclerView.setLayoutManager(new LinearLayoutManager(this));
         trialAdapter = new TrialAdapter(trialArrayList);
         trialAdapter.setOnItemClickListener(onItemClickListener);
         binding.recyclerView.setAdapter(trialAdapter);
+
+        FloatingActionButton fab =findViewById(R.id.add_trial);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (view.getId()==R.id.add_trial) {
+                    Intent intent = new Intent(MainActivity.this, TiralActivity.class);
+                    intent.putExtra("info", "new");
+                    startActivity(intent);
+                }
+            }
+        });
 
         sqLiteDatabase = this.openOrCreateDatabase("Trial", MODE_PRIVATE, null);
         getData();
@@ -72,7 +103,6 @@ public class MainActivity extends AppCompatActivity {
             Cursor cursor = sqLiteDatabase.rawQuery("SELECT * FROM trial", null);
             int nameIx = cursor.getColumnIndex("trialname");
             int idIx = cursor.getColumnIndex("id");
-            int imageIx=cursor.getColumnIndex("image");
 
             trialArrayList.clear();
             while (cursor.moveToNext()) {
@@ -91,24 +121,4 @@ public class MainActivity extends AppCompatActivity {
 
 
     }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater menuInflater = getMenuInflater();
-        menuInflater.inflate(R.menu.add_raw, menu);
-
-        return super.onCreateOptionsMenu(menu);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-
-        if (item.getItemId() == R.id.add_trial) {
-            Intent intent = new Intent(this, TiralActivity.class);
-            intent.putExtra("info","new");
-            startActivity(intent);
-        }
-        return super.onOptionsItemSelected(item);
-    }
-
 }

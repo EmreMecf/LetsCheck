@@ -14,42 +14,39 @@
             android:id="@+id/ekle"
             app:layout_constraintStart_toStartOf="parent" app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.498" app:layout_constraintBottom_toBottomOf="parent"
-            android:layout_marginBottom="96dp" android:onClick="ekle"/>
+            android:layout_marginBottom="96dp" android:onClick="ekle" app:iconTint="#FF0000" android:textSize="16sp"
+            android:fontFamily="sans-serif-black" android:textStyle="bold" android:textAlignment="center"
+            android:textAllCaps="false" android:textColor="#FFFFFF" android:backgroundTint="#FF9800"/>
 
     <EditText
-        android:id="@+id/correct"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="20dp"
-        android:ems="10"
-        android:hint="Doğru Sayısı"
-        android:inputType="number"
-        android:minHeight="48dp"
-        app:layout_constraintBottom_toTopOf="@+id/wrong"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.102"
-        app:layout_constraintStart_toStartOf="parent" />
+            android:id="@+id/correct"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="20dp"
+            android:ems="10"
+            android:hint="Doğru Sayısı"
+            android:inputType="number"
+            android:minHeight="48dp"
+            app:layout_constraintBottom_toTopOf="@+id/wrong"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.102"
+            app:layout_constraintStart_toStartOf="parent" android:fontFamily="sans-serif-black"
+            android:textAlignment="center" android:textStyle="bold"/>
 
     <EditText
-        android:id="@+id/wrong"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="236dp"
-        android:ems="10"
-        android:hint="Yanlıs Sayısı"
-        android:inputType="number"
-        android:minHeight="48dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.106"
-        app:layout_constraintStart_toStartOf="parent" />
-    <EditText android:layout_width="300dp"
-              android:layout_height="48dp"
-              android:hint="Trial Enter Name"
-              android:id="@+id/trialname"
-              app:layout_constraintStart_toStartOf="parent" app:layout_constraintEnd_toEndOf="parent"
-              app:layout_constraintHorizontal_bias="0.495" app:layout_constraintTop_toTopOf="parent"
-              android:layout_marginTop="100dp"/>
+            android:id="@+id/wrong"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="236dp"
+            android:ems="10"
+            android:hint="Yanlıs Sayısı"
+            android:inputType="number"
+            android:minHeight="48dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.106"
+            app:layout_constraintStart_toStartOf="parent" android:textStyle="bold" android:textAlignment="center"
+            android:fontFamily="sans-serif-black"/>
 
     <TextView
         android:id="@+id/net"
@@ -62,6 +59,16 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.954"
         app:layout_constraintStart_toStartOf="parent" />
+    <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:inputType="textPersonName"
+            android:ems="10"
+            android:id="@+id/trialname"
+            android:hint="Deneme İsmi" android:textSize="20sp"
+            android:textStyle="bold" app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginTop="112dp" app:layout_constraintHorizontal_bias="0.497"/>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
