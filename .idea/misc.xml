@@ -5,13 +5,18 @@
       <map>
         <entry key="..\:/Users/Nurullah/IntelliJIDEAProjects/LetsCheck/app/src/main/res/layout/activity_tiral_add.xml" value="0.25" />
         <entry key="..\:/Users/Nurullah/IntelliJIDEAProjects/LetsCheck/app/src/main/res/layout/recycler_row.xml" value="0.5" />
+        <entry key="app/src/main/res/drawable/border.xml" value="0.23802083333333332" />
+        <entry key="app/src/main/res/drawable/button.xml" value="0.23802083333333332" />
+        <entry key="app/src/main/res/drawable/edittext.xml" value="0.23802083333333332" />
+        <entry key="app/src/main/res/drawable/etcolor.xml" value="0.23802083333333332" />
         <entry key="app/src/main/res/drawable/ic_baseline_add_24.xml" value="0.25277777777777777" />
         <entry key="app/src/main/res/drawable/ic_baseline_create_new_folder_24.xml" value="0.1" />
         <entry key="app/src/main/res/drawable/ic_baseline_folder_24.xml" value="0.2390625" />
         <entry key="app/src/main/res/drawable/ic_baseline_more_vert_24.xml" value="0.2390625" />
-        <entry key="app/src/main/res/layout/activity_main.xml" value="0.49334068793676455" />
+        <entry key="app/src/main/res/layout/activity_main.xml" value="0.25730595780018406" />
         <entry key="app/src/main/res/layout/activity_tiral_add.xml" value="0.25" />
-        <entry key="app/src/main/res/layout/recycler_row.xml" value="0.2986132735123904" />
+        <entry key="app/src/main/res/layout/recycler_row.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/switch_item.xml" value="0.22291666666666668" />
         <entry key="app/src/main/res/layout/tiral_row.xml" value="0.25" />
         <entry key="app/src/main/res/menu/add_raw.xml" value="0.28765748515732137" />
         <entry key="app/src/main/res/menu/popup_menu.xml" value="0.23645833333333333" />
