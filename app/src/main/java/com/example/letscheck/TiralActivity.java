@@ -2,8 +2,6 @@ package com.example.letscheck;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -13,16 +11,19 @@ import android.widget.TextView;
 import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import com.example.letscheck.databinding.ActivityTiralAddBinding;
+import com.example.letscheck.db.TrialDatabaseHelper;
+import com.example.letscheck.db.TrialDaoImpl;
 
 import java.util.Objects;
 
 public class TiralActivity extends AppCompatActivity {
     private ActivityTiralAddBinding binding;
 
-    EditText correctEt;
-    EditText wrongEt;
-    TextView netTv;
-    SQLiteDatabase database;
+    private EditText correctEt;
+    private EditText wrongEt;
+    private TextView netTv;
+    private TrialDatabaseHelper databaseHelper;
+    private TrialDaoImpl trialDao;
 
     float getDogru() {
         String dogruStr = correctEt.getText().toString();
@@ -64,7 +65,10 @@ public class TiralActivity extends AppCompatActivity {
         binding = ActivityTiralAddBinding.inflate(getLayoutInflater());
         View view = binding.getRoot();
         setContentView(view);
-        database = this.openOrCreateDatabase("Trial", MODE_PRIVATE, null);
+
+        databaseHelper = new TrialDatabaseHelper(this);
+        trialDao = new TrialDaoImpl(databaseHelper.getWritableDatabase());
+
         correctEt = findViewById(R.id.correct);
         wrongEt = findViewById(R.id.wrong);
         netTv = findViewById(R.id.net);
@@ -82,54 +86,54 @@ public class TiralActivity extends AppCompatActivity {
             binding.ekle.setVisibility(View.VISIBLE);
 
         } else {
-            int artId = intent.getIntExtra("artId", 0);
-            binding.ekle.setVisibility(View.INVISIBLE);
-            try {
-                Cursor cursor = database.rawQuery("SELECT * FROM trial WHERE id=?", new String[]{String.valueOf(artId)});
-                int trialNameIx = cursor.getColumnIndex("trialname");
-                int correctIx = cursor.getColumnIndex("correct");
-                int wrongIx = cursor.getColumnIndex("wrong");
-                int netIx = cursor.getColumnIndex("net");
-                while (cursor.moveToNext()) {
-                    binding.trialname.setText(cursor.getString(trialNameIx));
-                    binding.correct.setText(cursor.getString(correctIx));
-                    binding.wrong.setText(cursor.getString(wrongIx));
-                    binding.net.setText(cursor.getString(netIx));
-                }
-                cursor.close();
-
-
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+            bindData();
         }
 
 
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        databaseHelper.close();
+    }
+
+    private void bindData(){
+        int artId = getIntent().getIntExtra("artId", 0);
+        binding.ekle.setVisibility(View.INVISIBLE);
+        try {
+            Trial trial = trialDao.get(artId);
+            if (trial == null)
+                return;
+            binding.trialname.setText(trial.getName());
+            binding.correct.setText(String.valueOf(trial.getCorrect()));
+            binding.wrong.setText(String.valueOf(trial.getWrong()));
+            float net = countNet((float)trial.getCorrect(),(float)trial.getWrong());
+            binding.net.setText(String.valueOf(net));
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
     public void ekle(View view) {
 
         String trialName = binding.trialname.getText().toString();
-        String correct = binding.correct.getText().toString();
-        String wrong = binding.wrong.getText().toString();
 
         if (correctEt.getText().toString().matches("") || wrongEt.getText().toString().matches("")) {
             Toast.makeText(getApplicationContext(), "Doğru veya Yanlış girmediniz", Toast.LENGTH_LONG).show();
 
         } else {
 
-            float dogru = Float.parseFloat(correctEt.getText().toString());
-            float yanlıs = Float.parseFloat(wrongEt.getText().toString());
+            float dogru = getDogru();
+            float yanlıs = getYanlıs();
 
             float net1 = countNet(dogru, yanlıs);
-
             netTv.setText(""  +  net1);
 
             try {
-                database.execSQL("CREATE TABLE IF NOT EXISTS trial(id INTEGER PRIMARY KEY, trialname VARCHAR, correct VARCHAR, wrong VARCHAR, net REAL)");
-                String sqlString = "INSERT INTO trial ( trialname, correct, wrong, net) VALUES ('" + trialName + "'," + correct + "," + wrong + "," + net1 + ")";
-                database.execSQL(sqlString);
+                Trial trial = new Trial(trialName,dogru,yanlıs);
+                trialDao.add(trial);
             } catch (Exception e) {
                 e.printStackTrace();
             }

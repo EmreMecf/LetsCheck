@@ -11,13 +11,23 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.letscheck.databinding.RecyclerRowBinding;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 public class TrialAdapter extends RecyclerView.Adapter<TrialAdapter.TrialHolder> {
-    private final ArrayList<Trial> trialArrayList;
+    private List<Trial> trialArrayList = Collections.emptyList();
     private AdapterView.OnItemClickListener onItemClickListener;
 
-    public TrialAdapter(ArrayList<Trial> trialArrayList){
-        this.trialArrayList=trialArrayList;
+    public List<Trial> getTrialArrayList() {
+        return trialArrayList;
+    }
+
+    public void setTrialArrayList(List<Trial> trialArrayList) {
+        this.trialArrayList = trialArrayList;
+        notifyDataSetChanged();
+    }
+
+    public TrialAdapter(){
     }
 
     @NonNull
@@ -32,7 +42,7 @@ public class TrialAdapter extends RecyclerView.Adapter<TrialAdapter.TrialHolder>
     @Override
     public void onBindViewHolder(@NonNull TrialHolder holder, @SuppressLint("RecyclerView") int position) {
 
-        holder.binding.recyclerViewTextView.setText(trialArrayList.get(position).name);
+        holder.binding.recyclerViewTextView.setText(trialArrayList.get(position).getName());
 
     }
 

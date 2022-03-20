@@ -1,34 +1,32 @@
 package com.example.letscheck;
 
 import android.content.Intent;
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
-import android.graphics.Rect;
+import android.database.sqlite.SQLiteOpenHelper;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.PopupMenu;
 import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 import com.example.letscheck.databinding.ActivityMainBinding;
+import com.example.letscheck.db.TrialDatabaseHelper;
+import com.example.letscheck.db.TrialDao;
+import com.example.letscheck.db.TrialDaoImpl;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
-import java.util.ArrayList;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
     private ActivityMainBinding binding;
-    SQLiteDatabase sqLiteDatabase;
-    ArrayList<Trial> trialArrayList;
     TrialAdapter trialAdapter;
+    private SQLiteOpenHelper databaseHelper;
+    private TrialDao trialDao;
+
     AdapterView.OnItemClickListener onItemClickListener = new AdapterView.OnItemClickListener() {
         @Override
         public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
-            final Trial trial = trialArrayList.get(position);
+            final Trial trial = trialAdapter.getTrialArrayList().get(position);
             switch (view.getId()) {
                 case R.id.popup_menu:
                     showPopupMenu(view, trial);
@@ -38,6 +36,7 @@ public class MainActivity extends AppCompatActivity {
             }
         }
     };
+
 
     private void showPopupMenu(View v, Trial trial) {
         PopupMenu popupMenu = new PopupMenu(this, v);
@@ -58,15 +57,14 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void deleteItem(Trial trial) {
-        int id = trial.id;
-        sqLiteDatabase.execSQL("DELETE FROM trial WHERE id=" + id);
-        getData();
+        trialDao.delete(trial.getId());
+        getAllTrialList();
     }
 
     private void goToTrialActivity(Trial trial) {
         Intent intent = new Intent(MainActivity.this,TiralActivity.class);
         intent.putExtra("info", "old");
-        intent.putExtra("artId", trial.id);
+        intent.putExtra("artId", trial.getId());
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         getApplicationContext().startActivity(intent);
     }
@@ -77,9 +75,12 @@ public class MainActivity extends AppCompatActivity {
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         View view = binding.getRoot();
         setContentView(view);
-        trialArrayList = new ArrayList<>();
+
+        databaseHelper = new TrialDatabaseHelper(this);
+        trialDao = new TrialDaoImpl(databaseHelper.getWritableDatabase());
+
         binding.recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        trialAdapter = new TrialAdapter(trialArrayList);
+        trialAdapter = new TrialAdapter();
         trialAdapter.setOnItemClickListener(onItemClickListener);
         binding.recyclerView.setAdapter(trialAdapter);
 
@@ -95,32 +96,23 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        sqLiteDatabase = this.openOrCreateDatabase("Trial", MODE_PRIVATE, null);
-        getData();
+        getAllTrialList();
     }
 
-    private void getData() {
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        databaseHelper.close();
+    }
+
+    private void getAllTrialList() {
 
         try {
-            Cursor cursor = sqLiteDatabase.rawQuery("SELECT * FROM trial", null);
-            int nameIx = cursor.getColumnIndex("trialname");
-            int idIx = cursor.getColumnIndex("id");
-
-            trialArrayList.clear();
-            while (cursor.moveToNext()) {
-                String name = cursor.getString(nameIx);
-                int id = cursor.getInt(idIx);
-                Trial trial = new Trial(name, id);
-                trialArrayList.add(trial);
-            }
-            trialAdapter.notifyDataSetChanged();
-            cursor.close();
-
-
+            List<Trial> trialList = trialDao.getAll();
+            trialAdapter.setTrialArrayList(trialList);
         } catch (Exception e) {
             e.printStackTrace();
         }
-
 
     }
 
